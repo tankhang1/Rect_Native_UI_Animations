@@ -1,6 +1,7 @@
 import {View, Text, StatusBar} from 'react-native';
 import React from 'react';
-import Navigation from './src/Arbnb_Host_Animation/Navigation/Navigation';
+import Navigation from './src/Navigation/Navigation';
+import Event_Creation from './src/Event_Creation/Event_Creation';
 
 const App = () => {
   return (
@@ -15,7 +16,8 @@ const App = () => {
         translucent
         barStyle={'dark-content'}
       />
-      <Navigation />
+      {/* <Navigation /> */}
+      <Event_Creation />
     </View>
   );
 };
