@@ -18,10 +18,15 @@ import {
 import Animated from 'react-native-reanimated';
 import Feather from 'react-native-vector-icons/Feather';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import {addNewEvent} from './Event_Creation';
+
 interface Props {
   openModal: boolean;
   setOpenModal: Function;
   setIsLongPress: Function;
+  eventIndex: number;
+  onNewEvent: addNewEvent[];
+  setOnNewEvent: Function;
 }
 const {height: HC} = Dimensions.get('screen');
 const COLORS = [
@@ -34,11 +39,20 @@ const COLORS = [
   '#69a4f0',
   '#a5d042',
 ];
-const Bottom_Modal = ({openModal, setOpenModal, setIsLongPress}: Props) => {
+const Bottom_Modal = ({
+  openModal,
+  setOpenModal,
+  setIsLongPress,
+  eventIndex,
+  setOnNewEvent,
+  onNewEvent,
+}: Props) => {
   const [eventTitle, setEventTitle] = useState<string>('');
   const [keyboardShow, setKeyboardShow] = useState<boolean>(false);
   const [chooseColor, setChooseColor] = useState<string>('#76cff5');
   const [location, setLocation] = useState<string>('');
+  console.log(eventIndex);
+  console.log(onNewEvent[0]);
   useEffect(() => {
     const subscribeShow = Keyboard.addListener('keyboardDidShow', () => {
       setKeyboardShow(true);
@@ -51,6 +65,19 @@ const Bottom_Modal = ({openModal, setOpenModal, setIsLongPress}: Props) => {
       subscribeunShow.remove();
     };
   }, []);
+  const outOfModal = () => {
+    let event = onNewEvent[eventIndex];
+    event.calendar = '06/06/2003';
+    event.color = chooseColor;
+    event.location = location;
+    event.title = eventTitle;
+    let tmpEvent = onNewEvent;
+    tmpEvent.splice(eventIndex, 1, event);
+    setOnNewEvent(tmpEvent);
+
+    setOpenModal(false);
+    setIsLongPress(false);
+  };
   const pan = Gesture.Pan();
   return (
     <Modal
@@ -66,10 +93,7 @@ const Bottom_Modal = ({openModal, setOpenModal, setIsLongPress}: Props) => {
           flex: 1,
         }}>
         <Pressable
-          onPress={() => {
-            setOpenModal(false);
-            setIsLongPress(false);
-          }}
+          onPress={outOfModal}
           style={[{flex: 1}, {backgroundColor: 'rgba(186,186,186,0.5)'}]}
         />
         <GestureDetector gesture={pan}>
@@ -219,7 +243,22 @@ const Bottom_Modal = ({openModal, setOpenModal, setIsLongPress}: Props) => {
                   fontWeight: '600',
                   marginRight: 20,
                 }}>
-                3:00 AM → 3:00 PM
+                {Math.round((onNewEvent[eventIndex]?.y + 24) / 60)}:
+                {Math.round((onNewEvent[eventIndex]?.y + 24) % 60)} AM →{' '}
+                {Math.round(
+                  (onNewEvent[eventIndex]?.y +
+                    24 +
+                    onNewEvent[eventIndex]?.height) /
+                    60,
+                )}
+                :
+                {Math.floor(
+                  (onNewEvent[eventIndex]?.y +
+                    24 +
+                    onNewEvent[eventIndex]?.height) %
+                    60,
+                )}{' '}
+                PM
               </Text>
               <Text
                 style={{

@@ -56,10 +56,14 @@ type Props = {
   item: Item;
   index: number;
 };
-interface addNewEvent {
+export interface addNewEvent {
   x: number;
   y: number;
   height: number;
+  title: string;
+  location: string;
+  color: string;
+  calendar: string;
 }
 const TIME = [
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
@@ -117,6 +121,37 @@ const Event_Creation = () => {
       </View>
     );
   };
+  const RenderPlan = ({renderIndex}: {renderIndex: number}) => {
+    onNewEvent.map((event, index) => {
+      if ((renderIndex + 1) * 60 >= event.y && renderIndex * 60 <= event.y)
+        return (
+          <View
+            style={{
+              width: WC - 100,
+              top: Math.abs(-index * 60 + event.y) - TIME.length + 2,
+              height: event.height,
+              position: 'absolute',
+              left: event.x,
+              backgroundColor: event.color,
+              borderRadius: 10,
+              zIndex: 99,
+              paddingHorizontal: 10,
+              paddingVertical: 10,
+            }}>
+            <Text style={{color: 'white'}} adjustsFontSizeToFit>
+              Title: {event.title}
+            </Text>
+            <Text style={{color: 'white'}} adjustsFontSizeToFit>
+              Date: {event.calendar}
+            </Text>
+
+            <Text style={{color: 'white'}} adjustsFontSizeToFit>
+              Location: {event.location}
+            </Text>
+          </View>
+        );
+    });
+  };
   const renderTime = ({item, index}: {item: number; index: number}) => {
     return (
       <View
@@ -135,25 +170,41 @@ const Event_Creation = () => {
           }}>
           {index < 11 ? `${item} AM` : `${item} PM`}{' '}
         </Text>
-        {(index + 1) * 60 >= onNewEvent[0]?.y &&
-          index * 60 <= onNewEvent[0]?.y && (
-            <View
-              style={{
-                width: WC - 100,
-                top: Math.abs(-index * 60 + onNewEvent[0].y) - TIME.length + 2,
-                height: onNewEvent[0].height,
-                position: 'absolute',
-                left: onNewEvent[0].x,
-                backgroundColor: 'green',
-                borderRadius: 10,
-                zIndex: 99,
-              }}
-            />
-          )}
+        {onNewEvent.map((event, eventIndex) => {
+          if ((index + 1) * 60 >= event.y && index * 60 <= event.y)
+            return (
+              <View
+                key={eventIndex}
+                style={{
+                  width: WC - 100,
+                  top: Math.abs(-index * 60 + event.y) - TIME.length + 2,
+                  height: event.height,
+                  position: 'absolute',
+                  left: event.x,
+                  backgroundColor: event.color,
+                  borderRadius: 10,
+                  zIndex: 99,
+                  paddingHorizontal: 10,
+                  paddingVertical: 10,
+                }}>
+                <Text style={{color: 'white'}} adjustsFontSizeToFit>
+                  Title: {event.title}
+                </Text>
+                <Text style={{color: 'white'}} adjustsFontSizeToFit>
+                  Date: {event.calendar}
+                </Text>
+
+                <Text style={{color: 'white'}} adjustsFontSizeToFit>
+                  Location: {event.location}
+                </Text>
+              </View>
+            );
+        })}
       </View>
     );
   };
 
+  const [eventIndex, setEventIndex] = useState<number>(0);
   const pan = Gesture.Pan()
     .runOnJS(true)
     .onUpdate(e => {
@@ -161,16 +212,20 @@ const Event_Creation = () => {
     })
 
     .onEnd(e => {
-      console.log(e.y);
       setOpenModal(true);
-      // setAddNewEvent([
-      //   ...onNewEvent,
-      //   {
-      //     x: locateXY.x - 10,
-      //     y: locateXY.y - headerHeight,
-      //     height: e.translationY + 30,
-      //   },
-      // ]);
+      setEventIndex(onNewEvent.length);
+      setAddNewEvent([
+        ...onNewEvent,
+        {
+          x: locateXY.x - 10,
+          y: locateXY.y - headerHeight,
+          height: e.translationY + 30,
+          title: '',
+          location: '',
+          calendar: '',
+          color: '',
+        },
+      ]);
 
       translateY_View.value = 30;
     });
@@ -279,6 +334,9 @@ const Event_Creation = () => {
         openModal={openModal}
         setOpenModal={setOpenModal}
         setIsLongPress={setIsLongPress}
+        eventIndex={eventIndex}
+        onNewEvent={onNewEvent}
+        setOnNewEvent={setAddNewEvent}
       />
     </GestureHandlerRootView>
   );
