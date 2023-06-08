@@ -170,6 +170,15 @@ const Event_Creation = () => {
           }}>
           {index < 11 ? `${item} AM` : `${item} PM`}{' '}
         </Text>
+        <View
+          style={{
+            width: '80%',
+
+            height: 0.5,
+            opacity: 0.075,
+            backgroundColor: 'gray',
+          }}
+        />
         {onNewEvent.map((event, eventIndex) => {
           if ((index + 1) * 60 >= event.y && index * 60 <= event.y)
             return (
@@ -183,7 +192,7 @@ const Event_Creation = () => {
                   left: event.x,
                   backgroundColor: event.color,
                   borderRadius: 10,
-                  zIndex: 99,
+
                   paddingHorizontal: 10,
                   paddingVertical: 10,
                 }}>
