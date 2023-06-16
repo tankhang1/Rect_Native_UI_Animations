@@ -14,3 +14,9 @@ https://github.com/tankhang1/Rect_Native_UI_Animations/assets/74121720/0f02183a-
 
 https://github.com/tankhang1/Rect_Native_UI_Animations/assets/74121720/b08fa5a8-c37e-44fc-a408-9baeb229dcf1
 
+# Table Component
+
+
+
+https://github.com/tankhang1/Rect_Native_UI_Animations/assets/74121720/cf6a9acc-a9fa-4537-9d1e-44da99e701d3
+
