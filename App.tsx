@@ -3,6 +3,7 @@ import React from 'react';
 import Navigation from './src/Navigation/Navigation';
 import Event_Creation from './src/Event_Creation/Event_Creation';
 import TableComponent from './src/Table_Component/TableComponent';
+import Draggable_Flatlist from './src/Draggable_FlatList/Draggable_Flatlist';
 
 const App = () => {
   const data = {
@@ -62,11 +63,14 @@ const App = () => {
         barStyle={'dark-content'}
       />
       {/* <Navigation /> */}
-      <TableComponent
+
+      <Draggable_Flatlist />
+
+      {/* <TableComponent
         data={data}
-        widthArr={[50, 60, 80, 100, 100, 100, 100]}
-        // flexArr={[1, 1, 2, 2, 1, 1, 2]}
-      />
+        // widthArr={[50, 60, 80, 100, 100, 100, 100]}
+        flexArr={[1, 1, 2, 2, 1, 1, 2]}
+      /> */}
     </View>
   );
 };
