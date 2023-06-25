@@ -4,6 +4,7 @@ import Navigation from './src/Navigation/Navigation';
 import Event_Creation from './src/Event_Creation/Event_Creation';
 import TableComponent from './src/Table_Component/TableComponent';
 import Draggable_Flatlist from './src/Draggable_FlatList/Draggable_Flatlist';
+import Blur_Animation from './src/Blur_Animation/Blur_Animation';
 
 const App = () => {
   const data = {
@@ -64,13 +65,7 @@ const App = () => {
       />
       {/* <Navigation /> */}
 
-      <Draggable_Flatlist />
-
-      {/* <TableComponent
-        data={data}
-        // widthArr={[50, 60, 80, 100, 100, 100, 100]}
-        flexArr={[1, 1, 2, 2, 1, 1, 2]}
-      /> */}
+      <Blur_Animation />
     </View>
   );
 };
