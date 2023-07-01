@@ -59,12 +59,10 @@ interface Item {
 const Draggable_Flatlist = () => {
   const [data, setData] = useState<Item[]>(DATA);
   const transY = DATA.map(() => useSharedValue(0));
-  const zIndexValue = DATA.map(() => useSharedValue(1));
   const viewAnimatedStyle = DATA.map((item: object, index: number) => {
     return useAnimatedStyle(() => {
       return {
         transform: [{translateY: transY[index].value}],
-        zIndex: zIndexValue[index].value,
       };
     });
   });
@@ -89,7 +87,7 @@ const Draggable_Flatlist = () => {
           style={{
             width: '5%',
             height: '100%',
-            backgroundColor: index === 0 ? '#7cf2b9' : 'red',
+            backgroundColor: 'red',
             borderTopLeftRadius: 10,
             borderBottomLeftRadius: 10,
           }}
@@ -134,44 +132,45 @@ const Draggable_Flatlist = () => {
   };
   const indexTouch = useSharedValue(0);
   const preIndexTouch = useSharedValue(0);
+  const maxValue = useSharedValue(0);
   const [update, setUpdate] = useState(false);
   const onUpdateData = (cur: number, pre: number) => {
     let tmpData = data;
-    console.log(data.length);
-    let itemChoice: Item = tmpData.splice(pre, 1)[0];
-    console.log(tmpData.length);
+    let itemChoice = tmpData.splice(pre, 1)[0];
     tmpData.splice(cur, 0, itemChoice);
-
     setData([...tmpData]);
     setUpdate(!update);
   };
   useEffect(() => {
     transY.forEach(e => (e.value = 0));
   }, [update]);
+
   const pan = Gesture.Pan()
     .onBegin(e => {
       indexTouch.value = Math.floor(e.absoluteY / 70);
       preIndexTouch.value = Math.floor(e.absoluteY / 70);
-      zIndexValue[indexTouch.value].value = 999;
     })
     .onChange(e => {
       indexTouch.value = Math.floor(e.absoluteY / 70);
-      if (indexTouch.value >= preIndexTouch.value) {
+      if (indexTouch.value > preIndexTouch.value) {
         transY[indexTouch.value].value = withTiming(-70);
       }
       if (indexTouch.value < preIndexTouch.value) {
         transY[indexTouch.value].value = withTiming(70);
       }
+
       transY[preIndexTouch.value].value = e.translationY;
     })
     .onEnd(e => {
-      indexTouch.value = Math.floor(e.absoluteY / 70);
-      transY[preIndexTouch.value].value = withTiming(indexTouch.value * 70);
+      let pre: number = preIndexTouch.value;
+      let cur: number = Math.floor(indexTouch.value);
+      if (pre >= cur) transY[pre].value = withTiming(-(pre - cur) * 70);
+      else transY[pre].value = withTiming((cur - pre) * 70);
     })
     .onFinalize(e => {
       'worklet';
-      let pre: number = preIndexTouch.value;
-      let cur: number = indexTouch.value;
+      let pre: number = Math.floor(preIndexTouch.value);
+      let cur: number = Math.floor(indexTouch.value);
       runOnJS(onUpdateData)(cur, pre);
     });
 

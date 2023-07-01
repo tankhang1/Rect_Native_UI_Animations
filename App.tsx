@@ -65,7 +65,7 @@ const App = () => {
       />
       {/* <Navigation /> */}
 
-      <Blur_Animation />
+      <Draggable_Flatlist />
     </View>
   );
 };
