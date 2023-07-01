@@ -26,5 +26,10 @@ https://github.com/tankhang1/Rect_Native_UI_Animations/assets/74121720/cf6a9acc-
 
 
 https://github.com/tankhang1/Rect_Native_UI_Animations/assets/74121720/f794bd43-1c85-476a-95a7-6f7d8ac4e619
+# Blur Animation
 
+
+
+
+https://github.com/tankhang1/Rect_Native_UI_Animations/assets/74121720/281a91fe-1be2-4f3f-96ea-8b0bf6277ea5
 
