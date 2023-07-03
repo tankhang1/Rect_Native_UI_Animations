@@ -10,6 +10,7 @@ import {
   PanGestureChangeEventPayload,
 } from 'react-native-gesture-handler';
 import Animated, {
+  cancelAnimation,
   runOnJS,
   useAnimatedStyle,
   useDerivedValue,
@@ -132,31 +133,50 @@ const Draggable_Flatlist = () => {
   };
   const indexTouch = useSharedValue(0);
   const preIndexTouch = useSharedValue(0);
-  const maxValue = useSharedValue(0);
   const [update, setUpdate] = useState(false);
   const onUpdateData = (cur: number, pre: number) => {
     let tmpData = data;
     let itemChoice = tmpData.splice(pre, 1)[0];
     tmpData.splice(cur, 0, itemChoice);
+    cancelAnimation(transY[pre]);
     setData([...tmpData]);
     setUpdate(!update);
   };
   useEffect(() => {
     transY.forEach(e => (e.value = 0));
   }, [update]);
-
+  const moveFirst = useSharedValue(0);
+  const moveSecond = useSharedValue(0);
   const pan = Gesture.Pan()
     .onBegin(e => {
       indexTouch.value = Math.floor(e.absoluteY / 70);
       preIndexTouch.value = Math.floor(e.absoluteY / 70);
+      moveFirst.value = e.y;
+    })
+    .onStart(e => {
+      moveSecond.value = e.y;
     })
     .onChange(e => {
       indexTouch.value = Math.floor(e.absoluteY / 70);
-      if (indexTouch.value > preIndexTouch.value) {
-        transY[indexTouch.value].value = withTiming(-70);
-      }
-      if (indexTouch.value < preIndexTouch.value) {
-        transY[indexTouch.value].value = withTiming(70);
+      console.log(e.changeY, indexTouch.value);
+      if (moveSecond.value - moveFirst.value > 0) {
+        if (indexTouch.value > preIndexTouch.value) {
+          if (e.changeY > 0) transY[indexTouch.value].value = withTiming(-70);
+          else transY[indexTouch.value].value = withTiming(0);
+        }
+        if (indexTouch.value < preIndexTouch.value) {
+          if (e.changeY > 0) transY[indexTouch.value].value = withTiming(70);
+          else transY[indexTouch.value].value = withTiming(0);
+        }
+      } else {
+        if (indexTouch.value > preIndexTouch.value) {
+          if (e.changeY < 0) transY[indexTouch.value].value = withTiming(-70);
+          else transY[indexTouch.value].value = withTiming(0);
+        }
+        if (indexTouch.value < preIndexTouch.value) {
+          if (e.changeY < 0) transY[indexTouch.value].value = withTiming(70);
+          else transY[indexTouch.value].value = withTiming(0);
+        }
       }
 
       transY[preIndexTouch.value].value = e.translationY;
@@ -181,7 +201,6 @@ const Draggable_Flatlist = () => {
           data={data}
           renderItem={renderItem}
           keyExtractor={item => item.id.toString()}
-          renderToHardwareTextureAndroid
         />
       </GestureDetector>
     </GestureHandlerRootView>
