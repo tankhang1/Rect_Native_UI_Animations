@@ -138,7 +138,6 @@ const Draggable_Flatlist = () => {
     let tmpData = data;
     let itemChoice = tmpData.splice(pre, 1)[0];
     tmpData.splice(cur, 0, itemChoice);
-    cancelAnimation(transY[pre]);
     setData([...tmpData]);
     setUpdate(!update);
   };
@@ -147,10 +146,12 @@ const Draggable_Flatlist = () => {
   }, [update]);
   const moveFirst = useSharedValue(0);
   const moveSecond = useSharedValue(0);
+  const minIndex = useSharedValue(0);
   const pan = Gesture.Pan()
     .onBegin(e => {
       indexTouch.value = Math.floor(e.absoluteY / 70);
       preIndexTouch.value = Math.floor(e.absoluteY / 70);
+      minIndex.value = Math.floor(e.absoluteY / 70);
       moveFirst.value = e.y;
     })
     .onStart(e => {
@@ -158,30 +159,49 @@ const Draggable_Flatlist = () => {
     })
     .onChange(e => {
       indexTouch.value = Math.floor(e.absoluteY / 70);
-      console.log(e.changeY, indexTouch.value);
+      minIndex.value = Math.max(minIndex.value, indexTouch.value);
+
       if (moveSecond.value - moveFirst.value > 0) {
         if (indexTouch.value > preIndexTouch.value) {
           if (e.changeY > 0) transY[indexTouch.value].value = withTiming(-70);
-          else transY[indexTouch.value].value = withTiming(0);
+          else {
+            if (indexTouch.value < preIndexTouch.value) {
+              transY[indexTouch.value].value = withTiming(-70);
+            } else transY[indexTouch.value].value = withTiming(0);
+          }
         }
         if (indexTouch.value < preIndexTouch.value) {
           if (e.changeY > 0) transY[indexTouch.value].value = withTiming(70);
-          else transY[indexTouch.value].value = withTiming(0);
+          else {
+            if (indexTouch.value < preIndexTouch.value) {
+              transY[indexTouch.value].value = withTiming(70);
+            } else transY[indexTouch.value].value = withTiming(0);
+          }
         }
       } else {
         if (indexTouch.value > preIndexTouch.value) {
           if (e.changeY < 0) transY[indexTouch.value].value = withTiming(-70);
-          else transY[indexTouch.value].value = withTiming(0);
+          else {
+            if (indexTouch.value > preIndexTouch.value)
+              transY[indexTouch.value].value = withTiming(-70);
+            else transY[indexTouch.value].value = withTiming(0);
+          }
         }
         if (indexTouch.value < preIndexTouch.value) {
           if (e.changeY < 0) transY[indexTouch.value].value = withTiming(70);
-          else transY[indexTouch.value].value = withTiming(0);
+          else {
+            if (indexTouch.value > preIndexTouch.value)
+              transY[indexTouch.value].value = withTiming(70);
+            else transY[indexTouch.value].value = withTiming(0);
+          }
         }
       }
 
       transY[preIndexTouch.value].value = e.translationY;
     })
     .onEnd(e => {
+      cancelAnimation(minIndex);
+      minIndex.value = 0;
       let pre: number = preIndexTouch.value;
       let cur: number = Math.floor(indexTouch.value);
       if (pre >= cur) transY[pre].value = withTiming(-(pre - cur) * 70);
