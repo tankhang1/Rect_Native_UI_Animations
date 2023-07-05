@@ -5,6 +5,7 @@ import Event_Creation from './src/Event_Creation/Event_Creation';
 import TableComponent from './src/Table_Component/TableComponent';
 import Draggable_Flatlist from './src/Draggable_FlatList/Draggable_Flatlist';
 import Blur_Animation from './src/Blur_Animation/Blur_Animation';
+import MetaBall_Animation from './src/MetaBall_Animation/MetaBall_Animation';
 
 const App = () => {
   const data = {
@@ -65,7 +66,7 @@ const App = () => {
       />
       {/* <Navigation /> */}
 
-      <Draggable_Flatlist />
+      <MetaBall_Animation />
     </View>
   );
 };
