@@ -42,7 +42,7 @@ const MetaBall_Animation = () => {
         <Blur blur={10} />
         <ColorMatrix
           matrix={[
-            // R G B Anpha placeholder
+            // R G B Anpha Offset
             1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 60, -30,
           ]}
         />

@@ -6,6 +6,8 @@ import TableComponent from './src/Table_Component/TableComponent';
 import Draggable_Flatlist from './src/Draggable_FlatList/Draggable_Flatlist';
 import Blur_Animation from './src/Blur_Animation/Blur_Animation';
 import MetaBall_Animation from './src/MetaBall_Animation/MetaBall_Animation';
+import Telegram_Dynamic from './src/Telegram_Dynamic/Telegram_Dynamic';
+import Confetti from './src/Confetti/Confetti';
 
 const App = () => {
   const data = {
@@ -57,7 +59,7 @@ const App = () => {
       style={{
         flex: 1,
         backgroundColor: 'white',
-        paddingTop: StatusBar.currentHeight,
+        // paddingTop: StatusBar.currentHeight,
       }}>
       <StatusBar
         backgroundColor={'transparent'}
@@ -66,7 +68,7 @@ const App = () => {
       />
       {/* <Navigation /> */}
 
-      <MetaBall_Animation />
+      <Confetti />
     </View>
   );
 };
