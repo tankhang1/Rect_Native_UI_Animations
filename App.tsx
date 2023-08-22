@@ -8,6 +8,7 @@ import Blur_Animation from './src/Blur_Animation/Blur_Animation';
 import MetaBall_Animation from './src/MetaBall_Animation/MetaBall_Animation';
 import Telegram_Dynamic from './src/Telegram_Dynamic/Telegram_Dynamic';
 import Confetti from './src/Confetti/Confetti';
+import Gradient_Picker_Reanimated from './src/Gradient_Picker_Reanimated';
 
 const App = () => {
   const data = {
@@ -68,7 +69,7 @@ const App = () => {
       />
       {/* <Navigation /> */}
 
-      <Confetti />
+      <Gradient_Picker_Reanimated />
     </View>
   );
 };
