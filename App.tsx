@@ -10,6 +10,7 @@ import Telegram_Dynamic from './src/Telegram_Dynamic/Telegram_Dynamic';
 import Confetti from './src/Confetti/Confetti';
 import Gradient_Picker_Reanimated from './src/Gradient_Picker_Reanimated';
 import Gradient_Reanimated from './src/Gradient_Reanimated';
+import FlickToFlip from './src/FlickToFlip/FlickToFlip';
 
 const App = () => {
   const data = {
@@ -70,7 +71,7 @@ const App = () => {
       />
       {/* <Navigation /> */}
 
-      <Gradient_Reanimated />
+      <FlickToFlip />
     </View>
   );
 };
