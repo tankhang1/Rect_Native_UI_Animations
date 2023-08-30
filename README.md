@@ -51,3 +51,9 @@ https://github.com/tankhang1/Rect_Native_UI_Animations/assets/74121720/18c0fb85-
 
 https://github.com/tankhang1/Rect_Native_UI_Animations/assets/74121720/d652fa5f-ee27-4189-bc64-62db97c4adf5
 
+# Gradient Linear Animated
+
+
+
+https://github.com/tankhang1/Rect_Native_UI_Animations/assets/74121720/4f2704b5-dd41-4d8e-b0db-a7f1a32c58f8
+
