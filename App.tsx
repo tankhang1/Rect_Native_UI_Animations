@@ -11,7 +11,7 @@ import Confetti from './src/Confetti/Confetti';
 import Gradient_Picker_Reanimated from './src/Gradient_Picker_Reanimated';
 import Gradient_Reanimated from './src/Gradient_Reanimated';
 import FlickToFlip from './src/FlickToFlip/FlickToFlip';
-
+import Avanced_BottomSheet from './src/Advanced-BottomSheet-UI/index';
 const App = () => {
   const data = {
     tableHead: [
@@ -71,7 +71,7 @@ const App = () => {
       />
       {/* <Navigation /> */}
 
-      <FlickToFlip />
+      <Avanced_BottomSheet />
     </View>
   );
 };
