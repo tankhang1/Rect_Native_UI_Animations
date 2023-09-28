@@ -12,6 +12,10 @@ import Gradient_Picker_Reanimated from './src/Gradient_Picker_Reanimated';
 import Gradient_Reanimated from './src/Gradient_Reanimated';
 import FlickToFlip from './src/FlickToFlip/FlickToFlip';
 import Avanced_BottomSheet from './src/Advanced-BottomSheet-UI/index';
+import Pixelated_Image from './src/Pixelated_Image';
+import TestLibrary from './src/TestLibrary';
+import ShareElement from './src/ShareElementTransition';
+import TwoSliderAnimation from './src/TwoSliderAnimation';
 const App = () => {
   const data = {
     tableHead: [
@@ -71,7 +75,7 @@ const App = () => {
       />
       {/* <Navigation /> */}
 
-      <Avanced_BottomSheet />
+      <TwoSliderAnimation />
     </View>
   );
 };
